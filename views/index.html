@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sun Rings - Sorteio de Cores</title>
+    <link rel="stylesheet" href="../css/style.css"> 
+</head>
+
+<body>
+
+    <form>
+
+        <header>
+            <h1>Sorteio de Cores dos Jogadores</h1>
+        </header>
+
+        <main>
+            <section>
+                <h2>Adicionar Jogadores</h2>
+                <div id="form-container">
+                    <input type="text" id="nomeJogador" placeholder="Digite o nome do jogador">
+                    <button type="button" onclick="adicionarJogador()">Adicionar Jogador</button>
+                </div>
+                <ul id="listaJogadores"></ul>
+                <button type="button" onclick="sortearCores()">Sortear Cores</button>
+            </section>
+
+            <section id="resultado" style="margin-top: 20px;">
+                <h2>Resultado do Sorteio</h2>
+                <ul id="coresJogadores"></ul>
+            </section>
+
+            <button type="submit" id="proxima-pagina">Avançar</button>
+
+        </main>
+
+        <footer>
+            <p>&copy; 2024 Sun Rings. Todos os direitos reservados.</p>
+        </footer>
+
+    </form>
+
+    <script>
+        let jogadores = [];
+        const cores = ['Vermelho', 'Azul', 'Verde', 'Amarelo']; // Cores sorteadas ciclicamente
+
+        function adicionarJogador() {
+            const nome = document.getElementById('nomeJogador').value;
+            if (nome) {
+                jogadores.push({ nome: nome });
+                localStorage.setItem('jogadores', JSON.stringify(jogadores));
+                document.getElementById('listaJogadores').innerHTML += `<li>${nome}</li>`;
+                document.getElementById('nomeJogador').value = '';
+            } else {
+                alert("Por favor, insira o nome do jogador.");
+            }
+        }
+
+        // Função para sortear cores
+        function sortearCores() {
+            if (jogadores.length === 0) {
+                alert("Adicione pelo menos um jogador para sortear as cores.");
+                return;
+            }
+
+            const jogadoresComCores = [];
+            jogadores.forEach((jogador, index) => {
+                const corSorteada = cores[index % cores.length];
+                jogadoresComCores.push({ nome: jogador.nome, cor: corSorteada });
+            });
+
+            const resultadoEl = document.getElementById('coresJogadores');
+            resultadoEl.innerHTML = '';
+            jogadoresComCores.forEach(jogador => {
+                const li = document.createElement('li');
+                li.textContent = `${jogador.nome} - Cor: ${jogador.cor}`;
+                li.style.backgroundColor = corParaHex(jogador.cor);
+                li.style.color = 'white';
+                resultadoEl.appendChild(li);
+            });
+        }
+
+        // Função para mapear cores para valores em hexadecimal
+        function corParaHex(cor) {
+            switch (cor) {
+                case 'Vermelho': return 'red';
+                case 'Azul': return '#2196F3';
+                case 'Verde': return '#4CAF50';
+                case 'Amarelo': return '#FFEB3B';
+                default: return '#f0f0f0';
+            }
+        }
+
+        // Função para enviar os jogadores para o backend
+        function enviarJogadoresParaBackend() {
+            const jogadores = JSON.parse(localStorage.getItem('jogadores')) || [];
+            return fetch('http://localhost:3000/salvar-jogadores', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ jogadores }),
+            });
+        }
+
+        // Avançar para próxima página e enviar os jogadores para o backend
+        document.getElementById("proxima-pagina").onclick = function(event) {
+            event.preventDefault();
+            enviarJogadoresParaBackend()
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao enviar os jogadores.');
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log(data);
+                    window.location.href = "../views/tabela.html"; // Avança para a próxima página
+                })
+                .catch(error => {
+                    console.error('Erro ao enviar os jogadores:', error);
+                });
+        };
+    </script>
+
+</body>
+</html>

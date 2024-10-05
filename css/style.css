@@ -1,0 +1,163 @@
+/* Reseta alguns estilos padrão para consistência */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    overflow: auto; /* Permite rolagem quando necessário */
+}
+
+header {
+    background: rgba(0, 255, 255, 0.9); /* Azul neon */
+    color: black;
+    padding: 15px;
+    width: 100%;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.7); /* Sombra azul */
+    animation: float 3s ease-in-out infinite; /* Animação de flutuação */
+}
+
+h1 {
+    font-size: 2.5rem;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+main {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px); /* Efeito de desfoque */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 100%;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #00ffff; /* Azul neon */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+#form-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #00ffff; /* Destaque ao focar no input com azul neon */
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #00ffff; /* Azul neon */
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #00e6e6; /* Azul mais claro ao passar o mouse */
+    transform: scale(1.05); /* Animação de aumento ao passar o mouse */
+}
+
+ul {
+    list-style-type: none;
+    margin-top: 10px;
+    max-height: 300px; /* Limita a altura da lista de resultados */
+    overflow-y: auto; /* Permite rolagem se a lista exceder a altura */
+}
+
+ul li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Cor dos resultados baseado na cor sorteada */
+ul li[data-cor="Vermelho"] {
+    background-color: #ff5733; /* Vermelho vibrante */
+    color: white;
+}
+ul li[data-cor="Azul"] {
+    background-color: #3399ff; /* Azul vibrante */
+    color: white;
+}
+ul li[data-cor="Verde"] {
+    background-color: #28a745; /* Verde vibrante */
+    color: white;
+}
+ul li[data-cor="Amarelo"] {
+    background-color: #ffc107; /* Amarelo vibrante */
+    color: black; /* Preto para contraste em amarelo */
+}
+
+ul li:hover {
+    opacity: 0.8; /* Destaque ao passar o mouse */
+}
+
+footer {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+footer p {
+    text-align: center;
+}
+
+/* Animação de flutuação */
+@keyframes float {
+    0% { transform: translatey(0); }
+    50% { transform: translatey(-10px); }
+    100% { transform: translatey(0); }
+}
+
+.botao {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #00ffff; /* Azul neon */
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.botao:hover {
+    background-color: #00e6e6; /* Azul mais claro ao passar o mouse */
+    transform: scale(1.05); /* Animação de aumento ao passar o mouse */
+}

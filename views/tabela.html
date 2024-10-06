@@ -1,13 +1,84 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Sun Rings - Jogo de Boliche</title>
+    <title>Sun Rings - Bowling Game</title>
     <link rel="stylesheet" href="../css/style.css"> 
     <style>
-        /* Estilos adicionais para a página do jogo */
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.8); /* Dark overlay */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background: #ffffff; /* White background */
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Soft shadow effect */
+            margin: 10% auto; /* Center the modal */
+            padding: 40px; /* Spacing inside */
+            width: 90%; /* Responsive width */
+            max-width: 600px; /* Max width */
+            text-align: center; /* Center text */
+            animation: fade-in 0.5s ease-out; /* Fade in animation */
+        }
+
+        /* Close Button */
+        .close {
+            color: #ff4081; /* Bright pink */
+            float: right; /* Align to the right */
+            font-size: 28px; /* Larger font size */
+            cursor: pointer; /* Pointer cursor */
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #d5006d; /* Darker pink on hover */
+        }
+
+        /* Heading */
+        h2 {
+            font-family: 'Arial', sans-serif; /* Font family */
+            color: #333; /* Dark text */
+            margin-bottom: 20px; /* Space below */
+        }
+
+        /* Emoji Images */
+        .modal img {
+            width: 80px; /* Fixed width for emojis */
+            margin: 0 15px; /* Space between images */
+            border-radius: 50%; /* Circular edges */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+
+        /* Hover Effects for Images */
+        .modal img:hover {
+            transform: scale(1.15); /* Scale up slightly */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+        }
+
+        /* Fade-in Animation */
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Estilos adicionais para a página */
         body {
             background: linear-gradient(to bottom right, #001f3f, #005b96);
             color: white;
@@ -19,8 +90,19 @@
             padding: 20px;
         }
 
-        header {
-            margin-bottom: 20px;
+        button {
+            padding: 10px 20px;
+            background-color: #FF4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #ff6699;
         }
 
         h1 {
@@ -44,21 +126,6 @@
             border-radius: 5px;
         }
 
-        button {
-            padding: 10px 20px;
-            background-color: #FF4081; /* Cor do botão */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-top: 20px;
-        }
-
-        button:hover {
-            background-color: #ff6699;
-        }
-
         #resultado {
             margin-top: 20px;
         }
@@ -75,7 +142,6 @@
         }
     </style>
 </head>
-
 <body>
 
     <header>
@@ -88,101 +154,108 @@
                 <h2>Round 1</h2>
                 <div>
                     <span>Jogador:</span>
-                    <select id="jogadorRound1"></select>
-                    <input type="number" id="pontuacaoRound1" placeholder="Pontuação" min="0">
-                    <button onclick="adicionarPontuacao(1)">Adicionar Pontuação</button>
+                    <strong>Kassen (Score: 50) - WINNER</strong>
+                    <!-- <input type="number" id="pontuacaoRound1" placeholder="Pontuação" min="0">
+                    <button onclick="adicionarPontuacao(1, 'Kassen')">Adicionar Pontuação</button> -->
                 </div>
             </div>
             <div class="round" id="round2">
                 <h2>Round 2</h2>
                 <div>
                     <span>Jogador:</span>
-                    <select id="jogadorRound2"></select>
-                    <input type="number" id="pontuacaoRound2" placeholder="Pontuação" min="0">
-                    <button onclick="adicionarPontuacao(2)">Adicionar Pontuação</button>
+                    <strong>Tiago (Score: 45)</strong>
+                    <!-- <input type="number" id="pontuacaoRound2" placeholder="Pontuação" min="0">
+                    <button onclick="adicionarPontuacao(2, 'Tiago')">Adicionar Pontuação</button> -->
                 </div>
             </div>
             <div class="round" id="round3">
                 <h2>Round 3</h2>
                 <div>
                     <span>Jogador:</span>
-                    <select id="jogadorRound3"></select>
-                    <input type="number" id="pontuacaoRound3" placeholder="Pontuação" min="0">
-                    <button onclick="adicionarPontuacao(3)">Adicionar Pontuação</button>
+                    <strong>Guilherme (Score: 30)</strong>
+                    <!-- <input type="number" id="pontuacaoRound3" placeholder="Pontuação" min="0">
+                    <button onclick="adicionarPontuacao(3, 'Guilherme')">Adicionar Pontuação</button> -->
                 </div>
             </div>
         </div>
 
-        <div id="resultado">
-            <h2>Resultados</h2>
-            <ul id="resultadoJogadores"></ul>
+
+        <!-- Button to trigger end of game modal -->
+        <button id="endGameBtn">End Game</button>
+
+        <!-- Modal structure -->
+        <div id="endGameModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Rate Your Experience</h2>
+                <div style="display: flex; justify-content: center;">
+                    <img src="https://em-content.zobj.net/thumbs/120/apple/325/pensive-face_1f614.png" alt="Pessimo" onclick="rateGame('Pessimo')">
+                    <img src="https://em-content.zobj.net/thumbs/120/apple/325/neutral-face_1f610.png" alt="Neutro" onclick="rateGame('Neutro')">
+                    <img src="https://em-content.zobj.net/thumbs/120/apple/325/beaming-face-with-smiling-eyes_1f601.png" alt="Otimo" onclick="rateGame('Otimo')">
+                </div>
+            </div>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2024 Sun Rings. Todos os direitos reservados.</p>
+        <p>&copy; 2024 Sun Rings. All rights reserved.</p>
     </footer>
 
     <script>
-        let pontuacoes = {};
+        let pontuacoes = {
+            Kassen: [0, 0, 0],
+            Tiago: [0, 0, 0],
+            Guilherme: [0, 0, 0]
+        };
 
-        // Carregar jogadores do localStorage
-        const jogadoresSalvos = JSON.parse(localStorage.getItem('jogadores')) || [];
-        
-        // Preencher as opções de jogadores nos selects
-        jogadoresSalvos.forEach(jogador => {
-            const option1 = document.createElement('option');
-            option1.value = jogador;
-            option1.textContent = jogador;
-            document.getElementById('jogadorRound1').appendChild(option1);
-            
-            const option2 = document.createElement('option');
-            option2.value = jogador;
-            option2.textContent = jogador;
-            document.getElementById('jogadorRound2').appendChild(option2);
-            
-            const option3 = document.createElement('option');
-            option3.value = jogador;
-            option3.textContent = jogador;
-            document.getElementById('jogadorRound3').appendChild(option3);
-        });
-
-        function adicionarPontuacao(round) {
-            const jogadorNome = document.getElementById(`jogadorRound${round}`).value;
+        function adicionarPontuacao(round, jogadorNome) {
             const pontuacao = parseInt(document.getElementById(`pontuacaoRound${round}`).value) || 0;
-
-            if (!jogadorNome) {
-                alert("Por favor, selecione um jogador.");
-                return;
-            }
 
             if (!pontuacao && pontuacao !== 0) {
                 alert("Por favor, insira uma pontuação válida.");
                 return;
             }
 
-            if (!pontuacoes[jogadorNome]) {
-                pontuacoes[jogadorNome] = [0, 0, 0]; // Inicia um array para 3 rounds
-            }
+            pontuacoes[jogadorNome][round - 1] += pontuacao; // Adiciona a pontuação ao round correspondente
 
-            pontuacoes[jogadorNome][round - 1] = pontuacao; // Adiciona a pontuação no round correspondente
-
-            exibirResultados();
-            document.getElementById(`pontuacaoRound${round}`).value = ''; // Limpa o campo da pontuação
+            // Atualiza o resultado na lista
+            atualizarResultados();
+            document.getElementById(`pontuacaoRound${round}`).value = ''; // Limpa o campo de entrada
         }
 
-        function exibirResultados() {
-            const resultadoEl = document.getElementById('resultadoJogadores');
-            resultadoEl.innerHTML = ''; // Limpa resultados anteriores
+        function atualizarResultados() {
+            const resultadoLista = document.getElementById('resultadoJogadores');
+            resultadoLista.innerHTML = ''; // Limpa a lista atual
 
             for (const jogador in pontuacoes) {
-                const total = pontuacoes[jogador].reduce((acc, curr) => acc + curr, 0); // Soma as pontuações
                 const li = document.createElement('li');
-                li.textContent = `${jogador}: Pontuação Total: ${total} (R1: ${pontuacoes[jogador][0]}, R2: ${pontuacoes[jogador][1]}, R3: ${pontuacoes[jogador][2]})`;
-                resultadoEl.appendChild(li);
+                li.textContent = `${jogador}: ${pontuacoes[jogador].join(', ')}`;
+                resultadoLista.appendChild(li);
             }
         }
-    </script>
 
+        // Modal functions
+        const modal = document.getElementById("endGameModal");
+        const btn = document.getElementById("endGameBtn");
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        function rateGame(rating) {
+            alert(`Thank you for rating: ${rating}`);
+            closeModal(); // Close modal after rating
+        }
+    </script>
 </body>
 </html>

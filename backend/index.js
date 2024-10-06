@@ -1,17 +1,16 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
-const cors = require('cors'); // Importa o pacote cors
+const cors = require('cors'); 
 
 const app = express();
-app.use(cors()); // Permite todas as origens
+app.use(cors());
 app.use(bodyParser.json());
 
-// Conexão com o banco de dados
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'root',  // Substitua com sua senha do MySQL
+  password: 'root',
   database: 'sunrings',
   port: 3306,
   connectTimeout: 30000
@@ -25,12 +24,10 @@ connection.connect((err) => {
   console.log('Conexão com o banco de dados estabelecida!');
 });
 
-// Rota para a raiz do servidor
 app.get('/', (req, res) => {
   res.send('Servidor está funcionando!');
 });
 
-// Endpoint para receber os jogadores
 app.post('/salvar-jogadores', (req, res) => {
   const jogadores = req.body.jogadores;
 
@@ -72,7 +69,6 @@ app.post('/salvar-jogadores', (req, res) => {
   });
 });
 
-// Iniciar o servidor
 app.listen(3000, () => {
   console.log('Servidor rodando na porta 3000');
 });

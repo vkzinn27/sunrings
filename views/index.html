@@ -13,38 +13,42 @@
     <form>
 
         <header>
-            <h1>Sorteio de Cores dos Jogadores</h1>
+            <h1>Player Color Draw</h1>
         </header>
 
         <main>
             <section>
-                <h2>Adicionar Jogadores</h2>
+                <h2>Add Players</h2>
                 <div id="form-container">
-                    <input type="text" id="nomeJogador" placeholder="Digite o nome do jogador">
-                    <button type="button" onclick="adicionarJogador()">Adicionar Jogador</button>
+                    <input type="text" id="nomeJogador" placeholder="Enter player name">
+                    <button type="button" onclick="adicionarJogador()">Add Player</button>
+                </div>
+                <div id="form-container">
+                    <input type="text" id="nomeJogador" placeholder="Enter ship name">
+                    <button type="button">Ship name</button>
                 </div>
                 <ul id="listaJogadores"></ul>
-                <button type="button" onclick="sortearCores()">Sortear Cores</button>
+                <button type="button" onclick="sortearCores()">Draw Colors</button>
             </section>
 
             <section id="resultado" style="margin-top: 20px;">
-                <h2>Resultado do Sorteio</h2>
+                <h2>Draw Result</h2>
                 <ul id="coresJogadores"></ul>
             </section>
 
-            <button type="submit" id="proxima-pagina">Avançar</button>
+            <button type="submit" id="proxima-pagina">Next</button>
 
         </main>
 
         <footer>
-            <p>&copy; 2024 Sun Rings. Todos os direitos reservados.</p>
+            <p>&copy; 2024 Sun Rings. All rights reserved.</p>
         </footer>
 
     </form>
 
     <script>
         let jogadores = [];
-        const cores = ['Vermelho', 'Azul', 'Verde', 'Amarelo']; // Cores sorteadas ciclicamente
+        const cores = ['Vermelho', 'Azul', 'Verde', 'Amarelo'];
 
         function adicionarJogador() {
             const nome = document.getElementById('nomeJogador').value;
@@ -58,7 +62,6 @@
             }
         }
 
-        // Função para sortear cores
         function sortearCores() {
             if (jogadores.length === 0) {
                 alert("Adicione pelo menos um jogador para sortear as cores.");
@@ -82,7 +85,6 @@
             });
         }
 
-        // Função para mapear cores para valores em hexadecimal
         function corParaHex(cor) {
             switch (cor) {
                 case 'Vermelho': return 'red';
@@ -93,7 +95,6 @@
             }
         }
 
-        // Função para enviar os jogadores para o backend
         function enviarJogadoresParaBackend() {
             const jogadores = JSON.parse(localStorage.getItem('jogadores')) || [];
             return fetch('http://localhost:3000/salvar-jogadores', {
@@ -105,7 +106,6 @@
             });
         }
 
-        // Avançar para próxima página e enviar os jogadores para o backend
         document.getElementById("proxima-pagina").onclick = function(event) {
             event.preventDefault();
             enviarJogadoresParaBackend()
@@ -117,7 +117,7 @@
                 })
                 .then(data => {
                     console.log(data);
-                    window.location.href = "../views/tabela.html"; // Avança para a próxima página
+                    window.location.href = "../views/tabela.html";
                 })
                 .catch(error => {
                     console.error('Erro ao enviar os jogadores:', error);
